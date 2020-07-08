@@ -36,6 +36,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Center(
                     child: Text(
@@ -54,11 +55,11 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     height: 25,
                   ),
                   Container(
-                    height: 100,
+                    height: 90,
                     child: TextField(
                       autofocus: false,
                       autocorrect: true,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       textCapitalization: TextCapitalization.sentences,
                       textAlignVertical: TextAlignVertical.top,
                       style: TextStyle(
@@ -69,16 +70,23 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       onEditingComplete: () {},
                       decoration: InputDecoration(
                         labelText: 'What are you planning?',
+                        labelStyle: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
-                  OutlineButton.icon(
-                    onPressed: () {
-                      _selectDate(context);
-                    },
-                    icon: Icon(Icons.event_note),
-                    label: Text(
-                      selectedDate.toString(),
+                  Container(
+                    width: double.infinity,
+                    height: 50,
+                    child: OutlineButton.icon(
+                      onPressed: () async {
+                        await _selectDate(context);
+                      },
+                      icon: Icon(Icons.event_note),
+                      label: Text(
+                        selectedDate.toString(),
+                      ),
                     ),
                   ),
                   TextField(

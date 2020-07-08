@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           elevation: 2,
         ),
         iconTheme: IconThemeData(
-          color: kPurple,
+          color: Colors.white,
         ),
       ),
       initialRoute: HomePage.id,

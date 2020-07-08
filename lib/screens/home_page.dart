@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:todolist/components/todo_item_container.dart';
 import 'package:todolist/constants.dart';
 import 'package:todolist/screens/add_todo_page.dart';
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(),
+      extendBody: true,
       body: ListView.builder(
 //        children: _todos, todo dsffdsdfs
         itemCount: 20,
@@ -41,52 +43,30 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 7,
-        clipBehavior: Clip.antiAlias,
-        child: Container(
-          height: 65,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Container(
-                child: IconButton(
-                  icon: Icon(Icons.list),
-                  iconSize: 30,
-                  onPressed: () {
-                    print('nb');
-                  },
-                ),
-              ),
-              Container(
-                child: IconButton(
-                  icon: Icon(Icons.access_alarm),
-                  iconSize: 30,
-                  onPressed: () {},
-                ),
-              ),
-            ],
+      bottomNavigationBar: CurvedNavigationBar(
+        items: <Widget>[
+          Icon(
+            Icons.list,
+            size: 30,
           ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        height: 75,
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                Navigator.pushNamed(context, AddTodoPage.id);
-              });
-            },
-            tooltip: 'Add',
-            child: Icon(
-              Icons.add,
-              size: 30,
-            ),
+          Icon(
+            Icons.add,
+            size: 30,
           ),
+          Icon(
+            Icons.access_alarm,
+            size: 30,
+          ),
+        ],
+        onTap: (index) {
+          //
+        },
+        animationDuration: Duration(
+          milliseconds: 300,
         ),
+        color: kBlueAccent,
+        backgroundColor: Colors.transparent,
+        height: 60,
       ),
     );
   }
