@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:animations/animations.dart';
 import 'package:todolist/components/todo_item_container.dart';
 import 'package:todolist/constants.dart';
 import 'package:todolist/screens/add_todo_page.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       bottomNavigationBar: BottomAppBar(
+        color: kBlueAccent,
         shape: CircularNotchedRectangle(),
         notchMargin: 7,
         clipBehavior: Clip.antiAlias,
@@ -71,22 +73,45 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        height: 75,
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                Navigator.pushNamed(context, AddTodoPage.id);
-              });
-            },
-            tooltip: 'Add',
-            child: Icon(
-              Icons.add,
-              size: 30,
+      floatingActionButton: OpenContainer(
+        transitionType: ContainerTransitionType.fade,
+        closedShape: CircleBorder(),
+        closedColor: kPurple,
+        openBuilder: (BuildContext context, VoidCallback _) {
+          return AddTodoPage();
+        },
+        closedBuilder: (BuildContext context, VoidCallback openContainer) {
+          return Container(
+            height: 75,
+            child: FittedBox(
+              child: FloatingActionButton(
+                onPressed: openContainer,
+                tooltip: 'Add',
+                child: Icon(
+                  Icons.add,
+                  size: 30,
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
+        //       child: Container(
+        //   height: 75,
+        //   child: FittedBox(
+        //     child: FloatingActionButton(
+        //       onPressed: () {
+        //         setState(() {
+        //           Navigator.pushNamed(context, AddTodoPage.id);
+        //         });
+        //       },
+        //       tooltip: 'Add',
+        //       child: Icon(
+        //         Icons.add,
+        //         size: 30,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

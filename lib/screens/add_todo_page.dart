@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todolist/constants.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
 
 class AddTodoPage extends StatefulWidget {
   static final String id = 'add_todo_page';
@@ -10,25 +12,16 @@ class AddTodoPage extends StatefulWidget {
 }
 
 class _AddTodoPageState extends State<AddTodoPage> {
-  DateTime selectedDate = DateTime.now();
-
+  DateTime selectedDate;
   DateTime now = DateTime.now();
-
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(now.year, now.month, now.day),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {}
-    setState(() {
-      selectedDate = picked;
-    });
-  }
+  final _timeFormat = DateFormat("yyyy-MM-dd HH:mm");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.close),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -72,20 +65,34 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       ),
                     ),
                   ),
-                  OutlineButton.icon(
-                    onPressed: () {
-                      _selectDate(context);
+                  DateTimeField(
+                    format: _timeFormat,
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: now,
+                          initialDate: currentValue ?? now,
+                          lastDate: DateTime(2100));
+                      if (date != null) {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime:
+                              TimeOfDay.fromDateTime(currentValue ?? now),
+                        );
+                        return DateTimeField.combine(date, time);
+                      } else {
+                        return currentValue;
+                      }
                     },
-                    icon: Icon(Icons.event_note),
-                    label: Text(
-                      selectedDate.toString(),
-                    ),
+                    onChanged: (date) => setState(() {
+                      selectedDate = date;
+                    }),
                   ),
                   TextField(
                     maxLines: 1,
                     decoration: InputDecoration(
                       icon: Icon(Icons.note),
-                      hintText: 'Add note',
+                      hintText: 'Add description',
                     ),
                   ),
                 ],
