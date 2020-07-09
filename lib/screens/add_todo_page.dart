@@ -14,13 +14,18 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   DateTime selectedDate;
   DateTime now = DateTime.now();
-  final _timeFormat = DateFormat("yyyy-MM-dd HH:mm");
+  final _timeFormat = DateFormat("E, MMM d, y 'at' h:mma");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.close),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            return Navigator.pop(context);
+          },
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,18 +33,17 @@ class _AddTodoPageState extends State<AddTodoPage> {
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
+              child: Wrap(
+                runSpacing: 15,
                 children: <Widget>[
                   Center(
                     child: Text(
                       'New Task',
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                          color: Colors.black,
+                      style: TextStyle(
+                        color: Colors.black54,
 //                    fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                        fontSize: 28,
 //                    fontStyle: FontStyle.italic,
-                        ),
                       ),
                     ),
                   ),
@@ -67,6 +71,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   ),
                   DateTimeField(
                     format: _timeFormat,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.alarm),
+                      hintText: 'Add reminder',
+                    ),
+                    initialValue:
+                        DateTime(now.year, now.month, now.day + 1, 12, 00),
                     onShowPicker: (context, currentValue) async {
                       final date = await showDatePicker(
                           context: context,
@@ -89,10 +99,17 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     }),
                   ),
                   TextField(
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.subject),
+                      hintText: 'Add description',
+                    ),
+                  ),
+                  TextField(
                     maxLines: 1,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.note),
-                      hintText: 'Add description',
+                      icon: Icon(Icons.bookmark_border),
+                      hintText: 'Add tags',
                     ),
                   ),
                 ],
@@ -119,7 +136,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
           ),
         ],
       ),
-//      appBar: AppBar(),
     );
   }
 }

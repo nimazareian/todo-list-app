@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'constants.dart';
 import 'screens/home_page.dart';
 import 'screens/add_todo_page.dart';
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         primaryColor: kBlueAccent,
         accentColor: kBlueAccent,
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: kPurple, //kBlueAccent,
           elevation: 2,

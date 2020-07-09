@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:todolist/components/todo_item_container.dart';
 import 'package:todolist/constants.dart';
+import 'package:todolist/model/todo.dart';
 import 'package:todolist/screens/add_todo_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<TodoItemContainer> _todos = [];
+  List<Todo> _todos = [];
   bool checkBox = false;
 
   @override
@@ -24,87 +25,11 @@ class _HomePageState extends State<HomePage> {
 //        children: _todos, todo dsffdsdfs
         itemCount: 20,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Container(
-              // height: 100,
-              // color: Colors.grey,
-              // decoration: BoxDecoration(boxShadow: <BoxShadow>[
-              //   BoxShadow(
-              //     color: Colors.black54,
-              //     // spreadRadius: 5,
-              //     blurRadius: 2,
-              //   ),
-              // ]),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      // offset: Offset(-5.0, 5.0),
-                      spreadRadius: 0.5,
-                      blurRadius: 2,
-                    )
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    flex: 6,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'This is the title of the todo',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'This is the description of the todo. Today I have alot of work to do boiiiiii iiiiii iiiiiiii iiiiiiii fsdh jdsf sadklhlk sajkdh',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '16:00 tomorrow',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Checkbox(value: true, onChanged: null),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          return TodoItemContainer(
+            title: 'Practice Piano',
+            description: 'This is the desciption of the ',
+            isFinish: false,
+            dueDate: DateTime.now(),
           );
           //     ListTile(
           //   title: Text('title'),
@@ -130,7 +55,6 @@ class _HomePageState extends State<HomePage> {
         notchMargin: 7,
         clipBehavior: Clip.antiAlias,
         child: Container(
-          color: Colors.transparent,
           height: 65,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
