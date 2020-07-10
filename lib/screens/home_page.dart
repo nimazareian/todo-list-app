@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:todolist/components/todo_item_container.dart';
 import 'package:todolist/constants.dart';
 import 'package:todolist/model/todo.dart';
+import 'package:todolist/model/todo_list.dart';
 import 'package:todolist/screens/add_todo_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,32 +23,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
 //      appBar: AppBar(),
-      body: ListView.builder(
-//        children: _todos, todo dsffdsdfs
-        itemCount: 20,
-        itemBuilder: (context, index) {
-          return TodoItemContainer(
-            title: 'Practice Piano',
-            description: 'This is the desciption of the ',
-            isFinish: false,
-            dueDate: DateTime.now(),
+      body: Consumer<TodoList>(
+        builder: (context, todo, child) {
+          return ListView.builder(
+            itemCount: todo.todoList.length,
+            itemBuilder: (context, index) {
+              return TodoItemContainer(
+                todo: todo.todoList[index],
+              );
+            },
           );
-          //     ListTile(
-          //   title: Text('title'),
-          //   subtitle: Text('title'),
-          //   enabled: true,
-          //   contentPadding: EdgeInsets.symmetric(horizontal: 30),
-          //   onTap: () {},
-          //   trailing: Checkbox(
-          //     value: checkBox,
-          //     activeColor: kBlueAccent,
-          //     onChanged: (bool b) {
-          //       setState(() {
-          //         checkBox = !checkBox;
-          //       });
-          //     },
-          //   ),
-          // );
         },
       ),
       bottomNavigationBar: BottomAppBar(
