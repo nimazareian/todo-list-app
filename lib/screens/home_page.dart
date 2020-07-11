@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:todolist/components/todo_item_container.dart';
 import 'package:todolist/constants.dart';
+import 'package:todolist/main.dart';
 import 'package:todolist/model/todo.dart';
 import 'package:todolist/model/todo_list.dart';
 import 'package:todolist/screens/add_todo_page.dart';
@@ -16,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Todo> _todos = [];
   bool checkBox = false;
 
   @override
@@ -24,14 +24,33 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
 //      appBar: AppBar(),
       body: Consumer<TodoList>(
-        builder: (context, todo, child) {
-          return ListView.builder(
-            itemCount: todo.todoList.length,
-            itemBuilder: (context, index) {
-              return TodoItemContainer(
-                todo: todo.todoList[index],
-              );
-            },
+        builder: (context, todos, child) {
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                title: Text(appName),
+                leading: IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {},
+                ),
+                centerTitle: true,
+                expandedHeight: 150,
+                floating: true,
+                pinned: false,
+                snap: true,
+                flexibleSpace: FlexibleSpaceBar(),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return TodoItemContainer(
+                      todo: todos.todoList[index],
+                    );
+                  },
+                  childCount: todos.todoList.length, //todo.todoList.length,
+                ),
+              ),
+            ],
           );
         },
       ),

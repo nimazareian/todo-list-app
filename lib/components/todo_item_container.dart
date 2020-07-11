@@ -17,6 +17,7 @@ class TodoItemContainer extends StatefulWidget {
 
 class _TodoItemContainerState extends State<TodoItemContainer> {
   Todo todo;
+  bool isSelected = false;
 
   @override
   initState() {
@@ -50,9 +51,7 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
               )
             ]),
         child: InkWell(
-          onTap: () {
-            print('inkwell');
-          },
+          onTap: () {},
           onLongPress: () {
             // implement that pops up a delete button
           },
@@ -104,8 +103,8 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16,
+                            color: Colors.grey.shade500,
+                            fontSize: 14,
                             fontWeight: FontWeight.w100,
                           ),
                         ),

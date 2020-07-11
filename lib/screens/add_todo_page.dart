@@ -126,7 +126,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
             ),
           ),
           InkWell(
-            //inkwell doesn't show circle when clicked on??
+            //inkwell doesn't show circle when clicked on?? Blue color BG?
             onTap: () {
               try {
                 Todo todo = Todo(
