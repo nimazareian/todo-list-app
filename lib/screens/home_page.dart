@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool checkBox = false;
+  Todo clickedTodo;
 
   @override
   Widget build(BuildContext context) {
@@ -107,23 +108,6 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-        //       child: Container(
-        //   height: 75,
-        //   child: FittedBox(
-        //     child: FloatingActionButton(
-        //       onPressed: () {
-        //         setState(() {
-        //           Navigator.pushNamed(context, AddTodoPage.id);
-        //         });
-        //       },
-        //       tooltip: 'Add',
-        //       child: Icon(
-        //         Icons.add,
-        //         size: 30,
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

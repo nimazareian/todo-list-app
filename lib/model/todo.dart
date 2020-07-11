@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Todo {
+class Todo extends ChangeNotifier {
   final int id;
   String title;
   String description = '';
@@ -18,4 +18,9 @@ class Todo {
       this.isFinish})
       : assert(title != null),
         assert(dueDate != null);
+
+  void updateTodo() {
+    //
+    notifyListeners();
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/model/todo.dart';
+import 'package:todolist/constants.dart';
+import 'package:todolist/screens/add_todo_page.dart';
 
 class TodoItemContainer extends StatefulWidget {
   final Todo todo;
@@ -34,6 +36,91 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
     return DateFormat("E, MMM d, y 'at' h:mma").format(todo.dueDate);
   }
 
+  void _showTodoDetail() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // set this to true
+      builder: (_) {
+        return DraggableScrollableSheet(
+          expand: false,
+          minChildSize: 0.3,
+          initialChildSize: 0.3,
+          builder: (context, controller) {
+            return Container(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          todo.title,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: kBlueAccent, //Colors.black54,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddTodoPage(
+                                  todo: todo,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Text(
+                      todo.description,
+                      style: kTodoDescriptionTextStyle,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      // height: 100,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: kPurple,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          formatDate(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+            // Container(
+            // color: Co,
+            // child:
+            // ListView.builder(
+            //   controller: controller, // set this too
+            //   itemBuilder: (_, i) => ListTile(title: Text('Item $i')),
+            // ),
+            // );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,7 +138,9 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
               )
             ]),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            _showTodoDetail();
+          },
           onLongPress: () {
             // implement that pops up a delete button
           },
@@ -77,8 +166,7 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                               todo.title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w300),
+                              style: kTodoTitleTextStyle,
                             ),
                             SizedBox(
                               height: 5,
@@ -87,11 +175,7 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                               todo.description,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                              ),
+                              style: kTodoDescriptionTextStyle,
                             ),
                           ],
                         ),

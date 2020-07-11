@@ -6,6 +6,7 @@ import 'constants.dart';
 import 'screens/home_page.dart';
 import 'screens/add_todo_page.dart';
 import 'model/todo_list.dart';
+import 'model/todo.dart';
 
 const appName = 'To Do List';
 
@@ -14,8 +15,9 @@ void main() => runApp(
         providers: [
           ChangeNotifierProvider(
             create: (context) => TodoList(),
-          )
-        ],
+          ),
+          // ChangeNotifierProvider(create: (context) => Todo()),////////////////////////////////////////////////////////
+        ], //Could probably declare lower down in the widget tree
         child: MyApp(),
       ),
     );
@@ -23,32 +25,27 @@ void main() => runApp(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      child: ChangeNotifierProvider(
-        create: (context) => TodoList(),
-        child: MaterialApp(
-          title: appName,
-          theme: ThemeData.light().copyWith(
-            primaryColor: kBlueAccent,
-            accentColor: kBlueAccent,
-            textTheme: GoogleFonts.montserratTextTheme(
-              Theme.of(context).textTheme,
-            ),
-            floatingActionButtonTheme: FloatingActionButtonThemeData(
-              backgroundColor: kPurple, //kBlueAccent,
-              elevation: 2,
-            ),
-            iconTheme: IconThemeData(
-              color: Colors.white, //kPurple,
-            ),
-          ),
-          initialRoute: HomePage.id,
-          routes: {
-            HomePage.id: (context) => HomePage(),
-            AddTodoPage.id: (context) => AddTodoPage(),
-          },
+    return MaterialApp(
+      title: appName,
+      theme: ThemeData.light().copyWith(
+        primaryColor: kBlueAccent,
+        accentColor: kBlueAccent,
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: kPurple, //kBlueAccent,
+          elevation: 2,
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.white, //kPurple,
         ),
       ),
+      initialRoute: HomePage.id,
+      routes: {
+        HomePage.id: (context) => HomePage(),
+        AddTodoPage.id: (context) => AddTodoPage(),
+      },
     );
   }
 }
