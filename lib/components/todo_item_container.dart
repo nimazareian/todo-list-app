@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todolist/components/chips_wrap.dart';
 import 'package:todolist/model/todo.dart';
 import 'package:todolist/constants.dart';
 import 'package:todolist/screens/add_todo_page.dart';
@@ -40,13 +41,22 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // set this to true
+      backgroundColor: Colors.transparent,
       builder: (_) {
         return DraggableScrollableSheet(
           expand: false,
-          minChildSize: 0.3,
-          initialChildSize: 0.3,
+          // minChildSize: 0.1,
+          // maxChildSize: 1,
+          // initialChildSize: 0.3,
           builder: (context, controller) {
             return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -55,19 +65,21 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          todo.title,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
+                        Expanded(
+                          child: Text(
+                            todo.title,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                         IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: kBlueAccent, //Colors.black54,
-                          ),
+                          icon: Icon(Icons.edit,
+                              color: kLightGrey //Colors.black54,
+                              ),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -80,6 +92,9 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                           },
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Text(
                       todo.description,
@@ -103,18 +118,16 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ChipsWrap(
+                      tags: todo.tags,
+                    ),
                   ],
                 ),
               ),
             );
-            // Container(
-            // color: Co,
-            // child:
-            // ListView.builder(
-            //   controller: controller, // set this too
-            //   itemBuilder: (_, i) => ListTile(title: Text('Item $i')),
-            // ),
-            // );
           },
         );
       },

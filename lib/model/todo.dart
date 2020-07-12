@@ -4,7 +4,7 @@ class Todo extends ChangeNotifier {
   final int id;
   String title;
   String description = '';
-  String tag;
+  List<String> tags = [];
   DateTime dueDate;
   final DateTime dateCreated = DateTime.now(); //Is this constant or changing
   bool isFinish = false;
@@ -14,7 +14,7 @@ class Todo extends ChangeNotifier {
       @required this.title,
       this.description,
       @required this.dueDate,
-      this.tag,
+      this.tags,
       this.isFinish})
       : assert(title != null),
         assert(dueDate != null);

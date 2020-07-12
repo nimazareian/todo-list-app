@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:todolist/model/todo.dart';
 import 'package:todolist/model/todo_list.dart';
 import 'package:todolist/screens/home_page.dart';
+import 'package:todolist/components/chips_wrap.dart';
 
 class AddTodoPage extends StatefulWidget {
   static final String id = 'add_todo_page';
@@ -20,6 +21,7 @@ class AddTodoPage extends StatefulWidget {
 
 class _AddTodoPageState extends State<AddTodoPage> {
   Todo todo;
+  List<String> tags = List<String>();
 
   DateTime now = DateTime.now();
   DateTime initialDate = DateTime(DateTime.now().year, DateTime.now().month,
@@ -50,9 +52,18 @@ class _AddTodoPageState extends State<AddTodoPage> {
   _editingTodoMode(Todo todo) {
     _titleController..text = todo.title;
     _descriptionController..text = todo.description;
-    _tagsController..text = todo.tag ?? null; // if not null
+    tags = todo.tags; // if not null
     initialDate = todo.dueDate;
     selectedDate = todo.dueDate;
+  }
+
+  void _addTag() {
+    if (_tagsController.text != null && _tagsController.text != '') {
+      setState(() {
+        tags.add(_tagsController.text);
+        _tagsController.clear();
+      });
+    }
   }
 
   @override
@@ -118,6 +129,14 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       ),
                     ),
                   ),
+                  TextField(
+                    controller: _descriptionController,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.subject),
+                      hintText: 'Add description',
+                    ),
+                  ),
                   DateTimeField(
                     format: _timeFormat,
                     decoration: InputDecoration(
@@ -147,21 +166,20 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     }),
                   ),
                   TextField(
-                    controller: _descriptionController,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.subject),
-                      hintText: 'Add description',
-                    ),
-                  ),
-                  TextField(
                     controller: _tagsController,
                     maxLines: 1,
                     decoration: InputDecoration(
                       icon: Icon(Icons.bookmark_border),
                       hintText: 'Add tags',
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: _addTag,
+                      ),
                     ),
                   ),
+                  ChipsWrap(
+                    tags: tags,
+                  )
                 ],
               ),
             ),
@@ -174,13 +192,13 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   todo
                     ..title = _titleController.text
                     ..description = _descriptionController.text
-                    ..tag = _tagsController.text
+                    ..tags = tags
                     ..dueDate = selectedDate;
                 } else {
                   todo = Todo(
                     title: _titleController.text,
                     description: _descriptionController.text,
-                    tag: _tagsController.text,
+                    tags: tags,
                     dueDate: selectedDate,
                     isFinish: false,
                   );
@@ -199,7 +217,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
               color: kBlueAccent,
               child: Center(
                 child: Text(
-                  'Create',
+                  _isEditing ? 'Update' : 'Create',
                   style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,

@@ -10,7 +10,7 @@ class TodoList extends ChangeNotifier {
       print('already contains it');
     } else {
       todoList.add(todo);
-      // _sortListDate();//////////////////////////// SOrt by day
+      _sortListDate(); //////////////////////////// SOrt by day
       for (Todo todo in todoList) {
         print(todo.title);
       }
@@ -19,7 +19,7 @@ class TodoList extends ChangeNotifier {
     }
   }
 
-  //currently messes up the list
+  //currentlsdfsdy messes up the list
   //sorts the list, but when listview builder tries to add it, it adds the last item. Doesnt rebuild the entire list tree
   //how to insert an item in middle of listview with listview builder
   void _sortListDate() {
