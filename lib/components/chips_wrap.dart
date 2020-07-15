@@ -4,8 +4,9 @@ import 'package:todolist/model/todo.dart';
 
 class ChipsWrap extends StatefulWidget {
   final List<String> tags;
+  final bool isEditing;
 
-  ChipsWrap({@required this.tags});
+  ChipsWrap({@required this.tags, @required this.isEditing});
 
   @override
   _ChipsWrapState createState() => _ChipsWrapState();
@@ -13,11 +14,13 @@ class ChipsWrap extends StatefulWidget {
 
 class _ChipsWrapState extends State<ChipsWrap> {
   List<String> tags;
+  bool isEditing;
 
   @override
   void initState() {
     super.initState();
     tags = widget.tags;
+    isEditing = widget.isEditing;
   }
 
   @override
@@ -35,11 +38,13 @@ class _ChipsWrapState extends State<ChipsWrap> {
               ),
             ),
             backgroundColor: kChipColors[index % kChipColors.length],
-            onDeleted: () {
-              setState(() {
-                tags.removeAt(index);
-              });
-            },
+            onDeleted: isEditing
+                ? () {
+                    setState(() {
+                      tags.removeAt(index);
+                    });
+                  }
+                : null,
             deleteIconColor: Colors.white54,
           );
         },

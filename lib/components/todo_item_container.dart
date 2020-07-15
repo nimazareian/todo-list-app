@@ -123,6 +123,7 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                     ),
                     ChipsWrap(
                       tags: todo.tags,
+                      isEditing: false,
                     ),
                   ],
                 ),

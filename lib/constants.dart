@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const appName = 'To Do List';
+
 const kBlueAccent = Color(0xFF5886FF);
 const kLightGreen = Color(0xFF8BC34A);
 const kYellowAmbre = Color(0xFFFFC107);

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:todolist/constants.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
+
+import 'package:todolist/constants.dart';
 import 'package:todolist/model/todo.dart';
 import 'package:todolist/model/todo_list.dart';
+import 'package:todolist/model/database_helper.dart';
 import 'package:todolist/screens/home_page.dart';
 import 'package:todolist/components/chips_wrap.dart';
 
@@ -22,6 +24,7 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   Todo todo;
   List<String> tags = List<String>();
+  DatabaseHelper _databaseHelper = DatabaseHelper();
 
   DateTime now = DateTime.now();
   DateTime initialDate = DateTime(DateTime.now().year, DateTime.now().month,
@@ -179,6 +182,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   ),
                   ChipsWrap(
                     tags: tags,
+                    isEditing: true,
                   )
                 ],
               ),
@@ -203,6 +207,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     isFinish: false,
                   );
                 }
+
+                _databaseHelper.insertTodo(todo);
+
                 Provider.of<TodoList>(context, listen: false).addTodo(todo);
                 print('create button pressed');
 

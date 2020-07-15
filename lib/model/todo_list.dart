@@ -19,9 +19,7 @@ class TodoList extends ChangeNotifier {
     }
   }
 
-  //currentlsdfsdy messes up the list
-  //sorts the list, but when listview builder tries to add it, it adds the last item. Doesnt rebuild the entire list tree
-  //how to insert an item in middle of listview with listview builder
+  // sort by due date of todo
   void _sortListDate() {
     todoList.sort((a, b) {
       var aDate = a.dueDate;

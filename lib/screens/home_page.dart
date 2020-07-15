@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:todolist/components/todo_item_container.dart';
+import 'package:todolist/components/custom_app_bar.dart';
 import 'package:todolist/constants.dart';
 import 'package:todolist/main.dart';
 import 'package:todolist/model/todo.dart';
 import 'package:todolist/model/todo_list.dart';
+import 'package:todolist/model/database_helper.dart';
 import 'package:todolist/screens/add_todo_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +22,9 @@ class _HomePageState extends State<HomePage> {
   bool checkBox = false;
   Todo clickedTodo;
 
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+  List<Todo> _todoDatabase = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,27 +33,16 @@ class _HomePageState extends State<HomePage> {
         builder: (context, todos, child) {
           return CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar(
-                title: Text(appName),
-                leading: IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {},
-                ),
-                centerTitle: true,
-                expandedHeight: 150,
-                floating: true,
-                pinned: false,
-                snap: true,
-                flexibleSpace: FlexibleSpaceBar(),
-              ),
+              CustomAppBar(),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return TodoItemContainer(
-                      todo: todos.todoList[index],
+                      todo: _todoDatabase[index], //todos.todoList[index],
                     );
                   },
-                  childCount: todos.todoList.length, //todo.todoList.length,
+                  childCount: _todoDatabase
+                      .length, //todos.todoList.length, //todo.todoList.length,
                 ),
               ),
             ],
@@ -78,7 +72,11 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: Icon(Icons.access_alarm),
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() async {
+                      _todoDatabase = await _databaseHelper.getAllTodo();
+                    });
+                  },
                 ),
               ),
             ],

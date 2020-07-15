@@ -8,8 +8,6 @@ import 'screens/add_todo_page.dart';
 import 'model/todo_list.dart';
 import 'model/todo.dart';
 
-const appName = 'To Do List';
-
 void main() => runApp(
       MultiProvider(
         providers: [
