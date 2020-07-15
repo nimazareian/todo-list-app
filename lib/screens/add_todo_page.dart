@@ -24,7 +24,7 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   Todo todo;
   List<String> tags = List<String>();
-  DatabaseHelper _databaseHelper = DatabaseHelper();
+  DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   DateTime now = DateTime.now();
   DateTime initialDate = DateTime(DateTime.now().year, DateTime.now().month,
@@ -61,11 +61,44 @@ class _AddTodoPageState extends State<AddTodoPage> {
   }
 
   void _addTag() {
-    if (_tagsController.text != null && _tagsController.text != '') {
+    if (_tagsController.text != null &&
+        _tagsController.text != '' &&
+        !_tagsController.text.contains(seperator)) {
       setState(() {
         tags.add(_tagsController.text);
         _tagsController.clear();
       });
+    }
+  }
+
+  Future<void> _addTodo() async {
+    try {
+      if (_isEditing) {
+        todo
+          ..title = _titleController.text
+          ..description = _descriptionController.text
+          ..tags = tags
+          ..dueDate = selectedDate;
+        //SHOULD CHECK IF todo is already in list
+        await _databaseHelper.update(todo);
+      } else {
+        todo = Todo(
+          title: _titleController.text,
+          description: _descriptionController.text,
+          tags: tags,
+          dueDate: selectedDate,
+          isFinish: false,
+        );
+        await _databaseHelper.insertTodo(todo);
+      }
+
+      Provider.of<TodoList>(context, listen: false).addTodo(todo);
+      print('create button pressed');
+
+      Navigator.pushNamed(context, HomePage.id);
+    } catch (e) {
+      print(e);
+      //Todo pop up message that item is not filled / Error
     }
   }
 
@@ -190,35 +223,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
           ),
           InkWell(
             //inkwell doesn't show circle when clicked on?? Blue color BG?
-            onTap: () {
-              try {
-                if (_isEditing) {
-                  todo
-                    ..title = _titleController.text
-                    ..description = _descriptionController.text
-                    ..tags = tags
-                    ..dueDate = selectedDate;
-                } else {
-                  todo = Todo(
-                    title: _titleController.text,
-                    description: _descriptionController.text,
-                    tags: tags,
-                    dueDate: selectedDate,
-                    isFinish: false,
-                  );
-                }
-
-                _databaseHelper.insertTodo(todo);
-
-                Provider.of<TodoList>(context, listen: false).addTodo(todo);
-                print('create button pressed');
-
-                Navigator.pushNamed(context, HomePage.id);
-              } catch (e) {
-                print(e);
-                //Todo pop up message that item is not filled / Error
-              }
-            },
+            onTap: _addTodo,
             child: Container(
               height: 65,
               color: kBlueAccent,

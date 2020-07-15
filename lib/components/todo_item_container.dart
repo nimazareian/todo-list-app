@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/components/chips_wrap.dart';
 import 'package:todolist/model/todo.dart';
+import 'package:todolist/model/database_helper.dart';
 import 'package:todolist/constants.dart';
 import 'package:todolist/screens/add_todo_page.dart';
 
@@ -21,6 +22,7 @@ class TodoItemContainer extends StatefulWidget {
 class _TodoItemContainerState extends State<TodoItemContainer> {
   Todo todo;
   bool isSelected = false;
+  DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   @override
   initState() {
@@ -77,9 +79,21 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.edit,
-                              color: kLightGrey //Colors.black54,
-                              ),
+                          icon: Icon(
+                            Icons.delete,
+                            color: kLightGrey, //Colors.black54,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _databaseHelper.delete(todo.id);
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: kLightGrey, //Colors.black54,
+                          ),
                           onPressed: () {
                             Navigator.push(
                               context,

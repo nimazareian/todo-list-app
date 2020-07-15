@@ -22,8 +22,22 @@ class _HomePageState extends State<HomePage> {
   bool checkBox = false;
   Todo clickedTodo;
 
-  DatabaseHelper _databaseHelper = DatabaseHelper();
+  DatabaseHelper _databaseHelper = DatabaseHelper.instance;
   List<Todo> _todoDatabase = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initDatabase();
+  }
+
+  void initDatabase() async {
+    // await DatabaseHelper.deleteData();
+    List<Todo> todoList = await _databaseHelper.getAllTodo();
+    setState(() {
+      _todoDatabase = todoList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +86,9 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                   icon: Icon(Icons.access_alarm),
                   iconSize: 30,
-                  onPressed: () {
-                    setState(() async {
-                      _todoDatabase = await _databaseHelper.getAllTodo();
-                    });
+                  onPressed: () async {
+                    // List<Todo> list = await _databaseHelper.getAllTodo();
+                    await DatabaseHelper.deleteData();
                   },
                 ),
               ),

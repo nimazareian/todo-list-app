@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 
 import 'database_helper.dart';
 
+final String seperator = '|';
+
 class Todo extends ChangeNotifier {
   final int id;
   String title;
@@ -27,21 +29,25 @@ class Todo extends ChangeNotifier {
     notifyListeners();
   }
 
-  final String columnTitle =
-      'title'; //has to be same as one of the fields of todo
-  final String columnId = 'id';
-  final String columnDescription = 'description';
-  final String columnDueDate = 'due_date';
-  final String columnDateCreated = 'date_created';
-  final String columnTags = 'tags';
-
   Map<String, dynamic> toMap() {
     return {
       columnTitle: this.title,
       columnDescription: this.description,
       columnDueDate: this.dueDate.toString(),
       columnDateCreated: this.dateCreated.toString(),
-      // columnTags: this.dateCreated.toString(),
+      columnIsFinish: this.isFinish ? 1 : 0,
+      columnTags: listToString(this.tags),
     };
+  }
+
+  // Concatenates all of the tags to one string with | as the seperator
+  String listToString(List<String> list) {
+    return list.join(seperator);
+  }
+
+  // Splits String using | as the seperator
+  // if tagsStr is null, return empty list
+  static List<String> stringToList(String tagsStr) {
+    return tagsStr?.split(seperator) ?? [];
   }
 }
