@@ -48,6 +48,8 @@ class Todo extends ChangeNotifier {
   // Splits String using | as the seperator
   // if tagsStr is null, return empty list
   static List<String> stringToList(String tagsStr) {
-    return tagsStr?.split(seperator) ?? [];
+    List<String> tagsList = tagsStr.split(seperator);
+    // print('TAGS : $tagsStr Length ${tagsStr.length}');
+    return tagsList; // != null && tagsList.length > 0 ? tagsList : []; // ?? [];
   }
 }

@@ -78,17 +78,18 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                             ),
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: kLightGrey, //Colors.black54,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _databaseHelper.delete(todo.id);
-                            });
-                          },
-                        ),
+                        // IconButton(
+                        //   icon: Icon(
+                        //     Icons.delete,
+                        //     color: kLightGrey, //Colors.black54,
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       //deletes from the database, but stay on screen
+                        //       _databaseHelper.delete(todo.id);
+                        //     });
+                        //   },
+                        // ),
                         IconButton(
                           icon: Icon(
                             Icons.edit,
@@ -194,7 +195,13 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                               todo.title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: kTodoTitleTextStyle,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                                decoration: todo.isFinish
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                              ),
                             ),
                             SizedBox(
                               height: 5,
@@ -233,6 +240,7 @@ class _TodoItemContainerState extends State<TodoItemContainer> {
                       onChanged: (bool newValue) {
                         setState(() {
                           todo.isFinish = newValue;
+                          _databaseHelper.update(todo);
                         });
                       },
                     ),

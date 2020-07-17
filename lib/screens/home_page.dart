@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
+
 import 'package:todolist/components/todo_item_container.dart';
 import 'package:todolist/components/custom_app_bar.dart';
 import 'package:todolist/constants.dart';
@@ -51,8 +52,34 @@ class _HomePageState extends State<HomePage> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return TodoItemContainer(
-                      todo: _todoDatabase[index], //todos.todoList[index],
+                    return Dismissible(
+                      key: ValueKey(_todoDatabase[index]),
+                      direction: DismissDirection.startToEnd,
+                      background: Container(
+                        color: Colors.redAccent,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onDismissed: (direction) {
+                        setState(() {
+                          _databaseHelper.delete(_todoDatabase[index].id);
+                          _todoDatabase.removeAt(index);
+                        });
+                        Scaffold.of(context).removeCurrentSnackBar();
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Todo Removed"),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      },
+                      child: TodoItemContainer(
+                        todo: _todoDatabase[index], //todos.todoList[index],
+                      ),
                     );
                   },
                   childCount: _todoDatabase
@@ -88,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 30,
                   onPressed: () async {
                     // List<Todo> list = await _databaseHelper.getAllTodo();
-                    await DatabaseHelper.deleteData();
+                    // await DatabaseHelper.deleteData(); //deletes all data
                   },
                 ),
               ),

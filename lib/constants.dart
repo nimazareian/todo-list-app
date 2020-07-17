@@ -18,11 +18,6 @@ const kChipColors = [
   Color(0xFFf3a683),
 ];
 
-const kTodoTitleTextStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w300,
-);
-
 final kTodoDescriptionTextStyle = TextStyle(
   color: Colors.grey.shade600,
   fontSize: 16,
