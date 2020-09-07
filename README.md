@@ -12,13 +12,15 @@ Cross platform (Android & iOS) Todo list application written fully in Dart, usin
 
 
 ## Showcase
-#### Adding a To Do
 
-#### Viewing all to dos and detailed view
+### Adding a To Do
+<img src="https://github.com/nimazareian/todo_list_app/blob/master/demo-adding-todo.gif" height="650" />
 
-#### Editing a To Do
+### Todo Detail View and Editing it
+<img src="https://github.com/nimazareian/todo_list_app/blob/master/demo-editing-todo.gif" height="650" />
 
-#### Removing a To Do
+### Finishing and Removing a To Do
+<img src="https://github.com/nimazareian/todo_list_app/blob/master/demo-finishing-and-removing-todo.gif" height="650" />
 
 ## Running the app on your own device
 To run the app you can clone the repository, then:
